@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+@layer components {
+  .view {
+    @apply  flex flex-col overflow-y-hidden;
+  }
+
+
+}
