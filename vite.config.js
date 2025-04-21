@@ -1,18 +1,45 @@
+// vite.config.js
 import { fileURLToPath, URL } from 'node:url'
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import vueDevTools from 'vite-plugin-vue-devtools'
+import { VitePWA } from 'vite-plugin-pwa'
+import AutoImport from 'unplugin-auto-import/vite';
+import Components from 'unplugin-vue-components/vite';
+import { VantResolver } from '@vant/auto-import-resolver';
+import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
-    vueDevTools(),
+    AutoImport({
+      imports: ['vue'],
+      resolvers: [VantResolver()],
+    }),
+    Components({
+      resolvers: [VantResolver()],
+    }),
+    VitePWA({
+      registerType: 'autoUpdate',
+      devOptions: {
+        enabled: false, // 禁用开发模式下的 workbox, 这会和 hmr 冲突, 而且没用
+      },
+      workbox: {
+        globPatterns: ['**/*.{mjs,js,css,html,png,jpg,gif,svg,woff,woff2}'], // 需要缓存的静态资源文件类型, 默认为 **/*.{js,css,html}
+      },
+      // includeAssets: ['非 public 文件夹下的文件'], // 额外需要缓存的文件
+      manifest: false
+    }),
+    tailwindcss(),
   ],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
+  },
+  server: {
+    host: '0.0.0.0', // 允许外部设备访问
+    open: true, // 自动打开浏览器
   },
 })
