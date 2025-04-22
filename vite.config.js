@@ -42,4 +42,5 @@ export default defineConfig({
     host: '0.0.0.0', // 允许外部设备访问
     open: true, // 自动打开浏览器
   },
+  base: '/pwa-mobile-demo/', // 仓库名, 用于静态资源的寻址, 避免部署 Github Pages 后 404
 })
