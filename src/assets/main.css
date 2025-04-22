@@ -2,8 +2,14 @@
 
 @layer components {
   .view {
-    @apply  flex flex-col overflow-y-hidden;
+    @apply flex flex-col grow overflow-y-hidden;
   }
 
+  .view__main {
+    @apply grow overflow-y-auto;
+  }
 
+  .placeholder {
+    @apply shrink-0;
+  }
 }
